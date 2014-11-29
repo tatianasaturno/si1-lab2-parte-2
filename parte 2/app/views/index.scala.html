@@ -1,0 +1,90 @@
+@(semanas: List[Semanas])
+
+@main("Minhas tarefas") {
+
+    <h3>Metas Cadastradas</h3>
+    <h4>Semana - Descricao - Prioridade - Codigo</h4>
+    <p>OBS: </br>1. Semana vai de 1 (atual), até 6 semanas depois</p>
+    <p>2. Prioridade varia entre 1-muito baixa, 2-baixa, 3-media, 4-alta e 5-muito alta</p>
+    <p>3. Cada meta tem um codigo unico</p>
+    @if(semanas.isEmpty()){
+        Nenhuma meta cadastrada
+    }else {
+    	<ul>
+            @for(metasPorSemana <- semanas){
+            	
+            	@if(metasPorSemana.getSemana1() == null){
+            		
+            	}else{
+            		<h4>Semana 1</h4>
+            		@for(meta <- metasPorSemana.getSemana1()){
+            		<li>@meta.getPrioridade - @meta.getDescricao - @meta.getCodigo</li>	
+            	}
+            	}
+            		
+            	@if(metasPorSemana.getSemana2() == null){
+            		
+            	}else{
+            		<h4>Semana 2</h4>
+            	@for(meta <- metasPorSemana.getSemana2()){
+            		<li>@meta.getPrioridade - @meta.getDescricao - @meta.getCodigo</li>	
+                
+            }
+            	}
+            	
+            	@if(metasPorSemana.getSemana3() == null){
+            		
+            	}else{
+            		<h4>Semana 3</h4>
+            @for(meta <- metasPorSemana.getSemana3()){
+            	<li>@meta.getPrioridade - @meta.getDescricao - @meta.getCodigo</li>	
+                
+            }
+            	}
+            	
+            	@if(metasPorSemana.getSemana4() == null){
+            		
+            	}else{
+            		<h4>Semana 4</h4>
+            @for(meta <- metasPorSemana.getSemana4()){
+                <li>@meta.getPrioridade - @meta.getDescricao - @meta.getCodigo</li>	
+            }
+            }
+            	
+            	
+            	@if(metasPorSemana.getSemana5() == null){
+            		
+            	}else{
+            		 <h4>Semana 5</h4>
+            @for(meta <- metasPorSemana.getSemana5()){
+                <li>@meta.getPrioridade - @meta.getDescricao - @meta.getCodigo</li>	
+            }
+            	}
+            	
+            	@if(metasPorSemana.getSemana6() == null){
+            		
+            	}else{
+            		 <h4>Semana 6</h4>
+            @for(meta <- metasPorSemana.getSemana6()){
+                <li>@meta.getPrioridade - @meta.getDescricao - @meta.getCodigo</li>	
+            }	
+            	}
+            
+            
+           
+           
+    </ul>
+    
+    }
+    }
+    
+    </br>
+    <h4>Criar meta</h4>
+    <form method="post" action="/metas"/>
+    	<input name="codigo" type="text" placeholder="codigo" required/><br>
+        <input name="semana" type="text" placeholder="semana" required/><br>
+        <input name="descricao" type="text" placeholder="descricao" required/><br>
+        <input name="prioridade" type="text" placeholder="prioridade" required/><br>
+        <input type="submit" value="criar"/>
+    </form>
+}
