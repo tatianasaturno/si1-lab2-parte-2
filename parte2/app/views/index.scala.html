@@ -7,13 +7,13 @@
     <p>OBS: </br>1. Semana vai de 1 (atual), até 6 semanas depois</p>
     <p>2. Prioridade varia entre 1-muito baixa, 2-baixa, 3-media, 4-alta e 5-muito alta</p>
     <p>3. Cada meta tem um codigo unico</p>
-    @if(semanas.isEmpty()){
-        Nenhuma meta cadastrada
+    @if(semanas.size == 0){
+        <p>Nenhuma meta cadastrada</p>
     }else {
     	<ul>
             @for(metasPorSemana <- semanas){
             	
-            	@if(metasPorSemana.getSemana1() == null){
+            	@if(metasPorSemana.getSemana1 == null){
             		
             	}else{
             		<h4>Semana 1</h4>

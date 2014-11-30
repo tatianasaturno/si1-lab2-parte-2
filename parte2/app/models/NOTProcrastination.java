@@ -3,6 +3,7 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,9 @@ import java.util.List;
 public class NOTProcrastination implements Comparable<NOTProcrastination> {
 
 	@Id
+	@GeneratedValue
+	private Long id;
+	
 	private int codigo;
 	private int semana;
 
