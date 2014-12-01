@@ -1,4 +1,4 @@
-name := """minhasTarefas"""
+name := """si1-lab2-2"""
 
 version := "1.0-SNAPSHOT"
 
