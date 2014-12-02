@@ -58,12 +58,12 @@
 								<td>@meta.getPrioridade()</td>
 								<td>
 									<form action="@routes.Application.setAlcancada(meta.getId())" method="post">
-										<button class="btn btn-default">Alcançada<span class="glyphicon glyphicon-ok"></span></button>
+										<button class="btn btn-success">Alcançada</button>
 									</form>
 								</td>
 								<td>
 									<form action="@routes.Application.deleteMeta(semana.getId(), meta.getId())" method="post">
-										<button class="btn btn-default">Remover<span class="glyphicon glyphicon-trash"></span></button>
+										<button class="btn btn-danger">Remover</span></button>
 									</form>
 								</td>
 							</tr>

@@ -14,7 +14,7 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application app) {
-        Logger.info("Aplicação inicializada...");
+        Logger.info("Iniciando...");
 
         JPA.withTransaction(new play.libs.F.Callback0() {
         	
