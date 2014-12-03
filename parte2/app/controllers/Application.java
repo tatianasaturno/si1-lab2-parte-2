@@ -15,7 +15,7 @@ import java.util.List;
 public class Application extends Controller {
 
 	
-    private static final BD meuDAO = new BD();
+    private static final BD bd = new BD();
     private static Form<Meta> metas = Form.form(Meta.class);
 	
        
@@ -27,7 +27,7 @@ public class Application extends Controller {
 
     @Transactional
     public static Result metas(){
-        List<Semana> semanas = meuDAO.findAllByClass(Semana.class);
+        List<Semana> semanas = bd.findAllByClass(Semana.class);
         return ok(views.html.index.render(semanas));
     }
 
@@ -39,7 +39,7 @@ public class Application extends Controller {
 
         if (formulario.hasErrors()) {
         	
-        	List<Semana> semanas = meuDAO.findAllByClass(Semana.class);
+        	List<Semana> semanas = bd.findAllByClass(Semana.class);
         	return badRequest(views.html.index.render(semanas));
         	
         } else {
@@ -50,12 +50,12 @@ public class Application extends Controller {
             novaMeta.setPrioridade(formulario.field("prioridade").value());
             
             Long semanaId = Long.parseLong(formulario.field("semana").value());
-            Semana semana = meuDAO.findByEntityId(Semana.class, semanaId);
+            Semana semana = bd.findByEntityId(Semana.class, semanaId);
             
             semana.addMeta(novaMeta);
 
-            meuDAO.merge(semana);
-            meuDAO.flush();
+            bd.merge(semana);
+            bd.flush();
 
             Logger.debug("Adicionada meta " + novaMeta.getNome() + " na semana " + semana.intervalAsString());
             
@@ -68,14 +68,14 @@ public class Application extends Controller {
 
     @Transactional
     public static Result deleteMeta(Long semanaId, Long metaId){
-        Semana semana = meuDAO.findByEntityId(Semana.class, semanaId);
-        Meta metaDesejada = meuDAO.findByEntityId(Meta.class, metaId);
+        Semana semana = bd.findByEntityId(Semana.class, semanaId);
+        Meta metaDesejada = bd.findByEntityId(Meta.class, metaId);
 
         semana.deleteMeta(metaDesejada);
         
         Logger.debug("Removendo meta:" + metaDesejada.getNome());
-        meuDAO.merge(semana);
-        meuDAO.flush();
+        bd.merge(semana);
+        bd.flush();
 
         return redirect(routes.Application.metas());
     }
@@ -84,11 +84,11 @@ public class Application extends Controller {
 
     @Transactional
     public static Result setAlcancada(Long id){
-        Meta metaDesejada = meuDAO.findByEntityId(Meta.class, id);
-        metaDesejada.setMetaAlcancada(true);
+        Meta meta = bd.findByEntityId(Meta.class, id);
+        meta.setMetaAlcancada(true);
 
-        meuDAO.merge(metaDesejada);
-        meuDAO.flush();
+        bd.merge(meta);
+        bd.flush();
 
         return redirect(routes.Application.metas());
     }

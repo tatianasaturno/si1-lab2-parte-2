@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div id="container">
-			<h1>Minhas Metas</h1>
+			<h1> Minhas Metas</h1>
 			<h4>Adicionar Meta</h4>
 			<form action="@routes.Application.addMeta()" method="post">
 				<label for="nome">Nome</label>
@@ -31,16 +31,17 @@
 					<option value="normal">Normal</option>
 					<option value="alta">Alta</option>
 				</select>
-				
-				<button class="btn btn-default">Adicionar</button>
+				<button class="btn btn-primary">Adicionar</button>
+				<br></br>
 			</form>
 
 			<h3>Metas Atuais</h3>
 			@for(semana <- semanas){
 				@if(!semana.isEmpty()){
-				<h4>Semana @semana.intervalAsString()
+				<h4 class="text-warning">Semana @semana.intervalAsString()
 				Total de Metas: @semana.totalMetas() Alcançadas: @semana.totalMetasAlcancadas() Não Alcançadas: @semana.totalMetasNaoAlcancadas()</h4>
-				<table class="table table-hover">
+				<div class="table-responsive">
+				<table class="table table-bordered">
 					<thead>
 						<th>Meta</th><th>Descrição</th><th>Prioridade</th><th></th><th></th>
 					</thead>
@@ -48,7 +49,7 @@
 						@for(meta <- semana.getMetas()){
 							
 							@if(meta.getAlcancada() == true){
-								<tr class="success">
+								<tr class="info">
 							} else {
 								<tr>
 							}
@@ -70,6 +71,7 @@
 						}
 					</tbody>
 				</table>
+				</div>
 				}
 			}
 		</div>
