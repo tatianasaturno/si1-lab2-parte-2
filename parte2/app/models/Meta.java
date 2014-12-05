@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 //Classe onde a meta poder ser adicionada, removida ou mudada
 
-@Entity
+@Entity(name="Meta")
 public class Meta implements Comparable<Meta> {
 
 	public enum Prioridade {

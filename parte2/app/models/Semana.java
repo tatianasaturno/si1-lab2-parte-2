@@ -17,32 +17,36 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.google.common.base.Objects;
+
 import static java.util.GregorianCalendar.*;
 
-@Entity
-public class Semana implements Comparable<Semana>{
-	
+@Entity(name="Semana")
+public class Semana implements Comparable<Semana> {
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Temporal(TemporalType.DATE)
 	private Calendar comecaData;
-	
+
 	@Temporal(TemporalType.DATE)
 	private Calendar terminaData;
-	
-	@OneToMany(cascade={CascadeType.ALL})
-	@JoinColumn(name="METAS")
+
+	@OneToMany(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "METAS")
 	private List<Meta> metas = new ArrayList<>();
-	
-	public Semana(){}
-	
+
+	public Semana() {
+	}
+
 	public Semana(GregorianCalendar comeca) {
 		int dayOfWeek = comeca.get(DAY_OF_WEEK);
-		
-		//Seleciona o inicio da semana para o domingo anterior a data especificada
-		switch(dayOfWeek){
+
+		// Seleciona o inicio da semana para o domingo anterior a data
+		// especificada
+		switch (dayOfWeek) {
 		case MONDAY:
 			comeca.add(DAY_OF_WEEK, -1);
 			break;
@@ -62,85 +66,101 @@ public class Semana implements Comparable<Semana>{
 			comeca.add(DAY_OF_WEEK, -6);
 			break;
 		}
-		
+
 		Date data = comeca.getTime();
-		
+
 		comecaData = new GregorianCalendar();
 		comecaData.setTime(data);
-		
+
 		terminaData = new GregorianCalendar();
 		terminaData.setTime(data);
 		terminaData.add(DAY_OF_MONTH, 6);
 	}
-	
-	public void addMeta(Meta meta){
+
+	public void addMeta(Meta meta) {
 		metas.add(meta);
 	}
-	
-	public void deleteMeta(Meta meta){
+
+	public void deleteMeta(Meta meta) {
 		metas.remove(meta);
 	}
-	
+
 	private String getStringId() {
-		return 	String.valueOf(comecaData.get(DAY_OF_MONTH)) + 
-				String.valueOf(comecaData.get(MONTH) + 1) + 
-				String.valueOf(comecaData.get(YEAR)) + "-" +
-				String.valueOf(terminaData.get(DAY_OF_MONTH)) + 
-				String.valueOf(terminaData.get(MONTH) + 1) + 
-				String.valueOf(terminaData.get(YEAR));
+		return String.valueOf(comecaData.get(DAY_OF_MONTH))
+				+ String.valueOf(comecaData.get(MONTH) + 1)
+				+ String.valueOf(comecaData.get(YEAR)) + "-"
+				+ String.valueOf(terminaData.get(DAY_OF_MONTH))
+				+ String.valueOf(terminaData.get(MONTH) + 1)
+				+ String.valueOf(terminaData.get(YEAR));
 	}
-	
-	public Long getId(){
+
+	public Long getId() {
 		return id;
 	}
-	
-	public String getStringComecaData(){
+
+	public String getStringComecaData() {
 		SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 		return fmt.format(comecaData.getTime());
 	}
-	
-	public String getStringTerminaData(){
+
+	public String getStringTerminaData() {
 		SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 		return fmt.format(terminaData.getTime());
 	}
-	
-	public String intervalAsString(){
+
+	public String intervalAsString() {
 		return getStringComecaData() + " - " + getStringTerminaData();
 	}
-	
-	public List<Meta> getMetas(){
+
+	public List<Meta> getMetas() {
 		return metas;
 	}
-	
-	public int totalMetas(){
+
+	public int totalMetas() {
 		return metas.size();
 	}
-	
-	public boolean isEmpty(){
+
+	public boolean isEmpty() {
 		return metas.isEmpty();
 	}
-	
-	public int totalMetasAlcancadas(){
+
+	public int totalMetasAlcancadas() {
 		int metasAlcancadas = 0;
-		
-		Iterator<Meta> it = metas.iterator(); 
-		while(it.hasNext()){
+
+		Iterator<Meta> it = metas.iterator();
+		while (it.hasNext()) {
 			Meta atual = it.next();
-			if(atual.getAlcancada() == true)
+			if (atual.getAlcancada() == true)
 				metasAlcancadas++;
 		}
-		
+
 		return metasAlcancadas;
 	}
-	
-	public int totalMetasNaoAlcancadas(){
+
+	public int totalMetasNaoAlcancadas() {
 		return this.totalMetas() - this.totalMetasAlcancadas();
 	}
 
 	@Override
 	public int compareTo(Semana outraSemana) {
-		//ordenar metas por semana
+		// ordenar metas por semana
 		return this.comecaData.compareTo(outraSemana.comecaData);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof Meta))
+			return false;
+
+		Semana semana = (Semana) obj;
+		return semana.getStringComecaData().equals(this.getStringComecaData())
+				&& semana.getStringTerminaData().equals(
+						this.getStringTerminaData());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(this.getStringComecaData(), this.getStringTerminaData());
 	}
 
 }

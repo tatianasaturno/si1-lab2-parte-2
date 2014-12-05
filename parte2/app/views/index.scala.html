@@ -9,7 +9,7 @@
 		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
 	</head>
 	<body style="background:#2E2E2E">
-		<div id="container">
+		<div id="uberbar">
 			<div class="jumbotron" style="background:#000000">
     			<img style="text-align: center" src="http://i.imgur.com/bA8aGzJ.jpg?1" class="img-polaroid" style="text-align: center">
     		</div>
@@ -41,7 +41,7 @@
 				<br></br>
 			</form>
 			</div>
-			<div class="col-md-3" style="left: 10%;">
+			<div class="col-md-3" style="left: 10%;" id="uberbar">
 			<h2 style="color:#FFFFFF"><b>Metas Atuais</b></h2>
 			@for(semana <- semanas){
 				@if(!semana.isEmpty()){
@@ -49,7 +49,7 @@
 				<h4 class="text-warning">Total de Metas: @semana.totalMetas()</h4>
 				<h4 class="text-warning">Alcançadas: @semana.totalMetasAlcancadas()</h4>
 				<h4 class="text-warning">Não Alcançadas: @semana.totalMetasNaoAlcancadas()</h4>
-				<div class="table-responsive">
+				<div class="table-responsive" id="uberbar">
 				<table class="table table-hover">
 					<thead>
 						<th style="color:#FFFFFF">Meta</th><th style="color:#FFFFFF">Descrição</th style="color:#FFFFFF"><th style="color:#FFFFFF">Prioridade</th><th></th><th></th>
