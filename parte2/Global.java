@@ -50,43 +50,43 @@ public class Global extends GlobalSettings {
                 bd.persist(semana6);
                 bd.flush();
                 
-                semana1.addMeta(new Meta("Meta 1", "Fazer lab 2 SI1", Prioridade.ALTA));
+                semana1.addMeta(new Meta("1", "Fazer lab 2 SI1", Prioridade.ALTA));
                 bd.merge(semana1);
                 bd.flush();     
                 
-                semana1.addMeta(new Meta("Meta 2", "Assistir séries", Prioridade.NORMAL));
+                semana1.addMeta(new Meta("2", "Assistir séries", Prioridade.NORMAL));
                 bd.merge(semana1);
                 bd.flush();    
                 
-                semana1.addMeta(new Meta("Meta 3", "Ir para aula", Prioridade.BAIXA));
+                semana1.addMeta(new Meta("3", "Ir para aula", Prioridade.BAIXA));
                 bd.merge(semana1);
                 bd.flush();    
                 
-                semana1.addMeta(new Meta("Meta 4", "Dormir", Prioridade.ALTA));
+                semana1.addMeta(new Meta("4", "Dormir", Prioridade.ALTA));
                 bd.merge(semana1);
                 bd.flush();    
                 
-                semana2.addMeta(new Meta("Meta 5", "Comer sushi", Prioridade.ALTA));
+                semana2.addMeta(new Meta("5", "Comer sushi", Prioridade.ALTA));
                 bd.merge(semana2);
                 bd.flush();    
                 
-                semana2.addMeta(new Meta("Meta 6", "Assistir animes", Prioridade.BAIXA));
+                semana2.addMeta(new Meta("6", "Assistir animes", Prioridade.BAIXA));
                 bd.merge(semana2);
                 bd.flush();    
                 
-                semana3.addMeta(new Meta("Meta 7", "Estudar", Prioridade.ALTA));
+                semana3.addMeta(new Meta("7", "Estudar", Prioridade.ALTA));
                 bd.merge(semana3);
                 bd.flush();    
                 
-                semana4.addMeta(new Meta("Meta 8", "Fazer comida", Prioridade.NORMAL));
+                semana4.addMeta(new Meta("8", "Fazer comida", Prioridade.NORMAL));
                 bd.merge(semana4);
                 bd.flush();    
                 
-                semana5.addMeta(new Meta("Meta 9", "Ir no cinema", Prioridade.NORMAL));
+                semana5.addMeta(new Meta("9", "Ir no cinema", Prioridade.NORMAL));
                 bd.merge(semana5);
                 bd.flush();    
                 
-                semana6.addMeta(new Meta("Meta 10", "Atualizar TERA", Prioridade.BAIXA)); 
+                semana6.addMeta(new Meta("10", "Atualizar TERA", Prioridade.BAIXA)); 
                 bd.merge(semana6);
                 bd.flush();  
             }

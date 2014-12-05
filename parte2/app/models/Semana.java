@@ -19,11 +19,6 @@ import javax.persistence.TemporalType;
 
 import static java.util.GregorianCalendar.*;
 
-/**
- * @author Tatiana Saturno
- *
- */
-
 @Entity
 public class Semana implements Comparable<Semana>{
 	
