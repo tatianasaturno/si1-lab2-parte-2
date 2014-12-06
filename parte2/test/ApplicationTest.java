@@ -1,5 +1,7 @@
+import models.Meta.Prioridade;
 import models.bd.BD;
 import models.Meta;
+import models.Semana;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,29 +24,30 @@ import static play.test.Helpers.status;
 
 import javax.persistence.EntityManager;
 
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ApplicationTest {
-
-	public Result resultado;
-	public EntityManager em;
-	public BD dao;
+	BD bd = new BD();
+	GregorianCalendar dataControle = new GregorianCalendar();
+	Meta meta1 = new Meta("1", "Fazer lab 2 SI1", Prioridade.ALTA);
+	Meta meta2 = new Meta("2", "Assistir séries", Prioridade.NORMAL);
+	Semana semana1 = new Semana(dataControle);
+	Semana semana2 = new Semana(dataControle);
+	EntityManager em;
+	List<Semana> semanas;
 
 	@Before
 	public void setUp() {
 		FakeApplication app = Helpers.fakeApplication(new GlobalSettings());
 		Helpers.start(app);
-
 		Option<JPAPlugin> jpaPlugin = app.getWrappedApplication().plugin(
 				JPAPlugin.class);
-
 		em = jpaPlugin.get().em("default");
 		JPA.bindForCurrentThread(em);
 		em.getTransaction().begin();
-
-		dao = new BD();
 	}
 
 	@After
@@ -55,107 +58,72 @@ public class ApplicationTest {
 	}
 
 	@Test
-	public void deveRedirecionar() {
-		resultado = callAction(controllers.routes.ref.Application.index(),
-				fakeRequest());
-		assertThat(status(resultado)).isEqualTo(Http.Status.SEE_OTHER);
-		assertThat(redirectLocation(resultado)).isEqualTo("/metas");
+	public void deveIniciarSemMetas() {
+		semanas = bd.findAllByClass(Semana.class);
+		assertThat(semanas.size() == 0).isTrue();
+	}
+	
+	@Test
+	public void deveSalvarSemanaNoBD() {
+		bd.persist(semana1);
+		semanas = bd.findAllByClass(Semana.class);
+		assertThat(semanas.size() == 1).isTrue();
+		assertThat(semanas.get(0).getMetasTotal()).isEqualTo(0);
+		
+		bd.persist(semana2);
+		semanas = bd.findAllByClass(Semana.class);
+		assertThat(semanas.size() == 2).isTrue();
+		assertThat(semanas.get(1).getMetasTotal()).isEqualTo(0);
+	}
+	
+	@Test
+	public void deveSalvarMetaNoBD() {
+		semana1.addMeta(meta1);
+		bd.persist(semana1);
+		semanas = bd.findAllByClass(Semana.class);
+		assertThat(semanas.get(0).getMetasTotal() == 1).isTrue();
+		
 	}
 
-	@Test
-	public void deveIniciarSemMetas() {
-		resultado = callAction(controllers.routes.ref.Application.metas(),
-				fakeRequest());
-		assertThat(contentAsString(resultado)).contains(
-				"Você ainda não adicionou metas");
-		assertThat(status(resultado)).isEqualTo(Http.Status.OK);
-	}
 
 	@Test
 	public void deveAdicionarMetas() {
-		// Cria formulario falso
-		Map<String, String> fakeForm = new HashMap<String, String>();
-		fakeForm.put("nome", "Lab 2 de SI");
-		fakeForm.put("descricao", "Laboratório usando play! e Java");
-		fakeForm.put("prioridade", "alta");
-		fakeForm.put("ano", "2014");
-		fakeForm.put("mes", "11");
-		fakeForm.put("dia", "01");
-
-		// Chama a acao addMeta() usando o formulario falso
-		resultado = callAction(controllers.routes.ref.Application.addMeta(),
-				fakeRequest().withFormUrlEncodedBody(fakeForm));
-
-		assertThat(status(resultado)).isEqualTo(Http.Status.SEE_OTHER);
-		assertThat(redirectLocation(resultado)).isEqualTo("/metas");
-
-		List<Meta> metas = dao.findAllByClass(Meta.class);
-		assertThat(metas.size()).isEqualTo(1);
-		assertThat(metas.get(0).getNome()).isEqualTo("Lab 2 de SI");
-		List<Meta> result2 = dao.findByAttributeName("Meta", "nome",
-				"Lab 2 de SI");
-		assertThat(result2.size()).isEqualTo(1);
-
-		resultado = callAction(controllers.routes.ref.Application.metas(),
-				fakeRequest());
-		assertThat(status(resultado)).isEqualTo(Http.Status.OK);
-		assertThat(contentAsString(resultado)).contains("Lab 2 de SI");
+		semana1.addMeta(meta1);
+		bd.persist(semana1);
+		semanas = bd.findAllByClass(Semana.class);
+		assertThat(semanas.get(0).getMetas().get(0).getNome() == "1").isTrue();
+		assertThat(semanas.get(0).getMetas().get(0).getDescricao() == "Fazer lab 2 SI1").isTrue();
+		assertThat(semanas.get(0).getMetas().get(0).getPrioridade() == Prioridade.ALTA).isTrue();
 	}
 
 	@Test
-	public void deveMostrarMetaComoAlcancada() {
-		// Cria formulario falso
-		Map<String, String> fakeForm = new HashMap<String, String>();
-		fakeForm.put("nome", "Lab 2 de SI");
-		fakeForm.put("descricao", "Laboratório usando play! e Java");
-		fakeForm.put("prioridade", "alta");
-		fakeForm.put("ano", "2014");
-		fakeForm.put("mes", "11");
-		fakeForm.put("dia", "01");
-
-		callAction(controllers.routes.ref.Application.addMeta(), fakeRequest()
-				.withFormUrlEncodedBody(fakeForm));
-
-		Meta metaDesejada = (Meta) dao.findAllByClass(Meta.class).get(0);
-		Long idMeta = metaDesejada.getId();
-		callAction(controllers.routes.ref.Application.setAlcancada(idMeta));
-		dao.refresh(metaDesejada);
-
-		assertThat(metaDesejada.getAlcancada()).isTrue();
+	public void deveSetarMetaComoAlcancada() {
+		semana1.addMeta(meta1);
+		bd.persist(semana1);
+		semanas = bd.findAllByClass(Semana.class);
+		assertThat(semanas.get(0).getMetas().get(0).isAlcancada()).isFalse();
+		semana1.getMetas().get(0).setMetaAlcancada(true);
+		semanas = bd.findAllByClass(Semana.class);
+		assertThat(semanas.get(0).getMetas().get(0).isAlcancada()).isTrue();
 	}
 
 	@Test
 	public void deveRemoverMetas() {
-		// Cria formulario falso
-		Map<String, String> fakeForm = new HashMap<String, String>();
-		fakeForm.put("nome", "Lab 2 de SI");
-		fakeForm.put("descricao", "Laboratório usando play! e Java");
-		fakeForm.put("prioridade", "alta");
-		fakeForm.put("ano", "2014");
-		fakeForm.put("mes", "11");
-		fakeForm.put("dia", "01");
-
-		callAction(controllers.routes.ref.Application.addMeta(), fakeRequest()
-				.withFormUrlEncodedBody(fakeForm));
-
-		Meta desejada = (Meta) dao.findByAttributeName("Meta", "nome",
-				"Lab 2 de SI").get(0);
-		Long idMeta = desejada.getId();
-		resultado = callAction(controllers.routes.ref.Application.deleteMeta(
-				idMeta, 0));
-
-		List<Meta> metas = dao.findAllByClass(Meta.class);
-		assertThat(metas.size()).isEqualTo(0);
-
-		assertThat(status(resultado)).isEqualTo(Http.Status.SEE_OTHER);
-		assertThat(redirectLocation(resultado)).isEqualTo("/metas");
-
-		resultado = callAction(controllers.routes.ref.Application.metas(),
-				fakeRequest());
-		assertThat(status(resultado)).isEqualTo(Http.Status.OK);
-		assertThat(contentAsString(resultado)).contains(
-				"Você ainda não adicionou metas");
-		assertThat(contentAsString(resultado)).doesNotContain("Lab 2 de SI");
+		semana1.addMeta(meta1);
+		semana1.addMeta(meta2);
+		bd.persist(semana1);
+		semanas = bd.findAllByClass(Semana.class);
+		assertThat(semanas.get(0).getMetasTotal() == 2).isTrue();
+		
+		semana1.removeMeta(meta2);
+		bd.persist(semana1);
+		semanas = bd.findAllByClass(Semana.class);
+		assertThat(semanas.get(0).getMetasTotal() == 1).isTrue();
+		
+		semana1.removeMeta(meta1);
+		bd.persist(semana1);
+		semanas = bd.findAllByClass(Semana.class);
+		assertThat(semanas.get(0).isEmpty()).isTrue();
+		
 	}
-
 }

@@ -46,9 +46,9 @@
 			@for(semana <- semanas){
 				@if(!semana.isEmpty()){
 				<h4 class="text-warning">Semana @semana.intervalAsString()</h4>
-				<h4 class="text-warning">Total de Metas: @semana.totalMetas()</h4>
-				<h4 class="text-warning">Alcançadas: @semana.totalMetasAlcancadas()</h4>
-				<h4 class="text-warning">Não Alcançadas: @semana.totalMetasNaoAlcancadas()</h4>
+				<h4 class="text-warning">Total de Metas: @semana.getMetasTotal()</h4>
+				<h4 class="text-warning">Alcançadas: @semana.getTotalMetasAlcancadas()</h4>
+				<h4 class="text-warning">Não Alcançadas: @semana.getTotalMetasNaoAlcancadas()</h4>
 				<div class="table-responsive" id="uberbar">
 				<table class="table table-hover">
 					<thead>
@@ -57,7 +57,7 @@
 					<tbody>
 						@for(meta <- semana.getMetas()){
 							
-							@if(meta.getAlcancada() == true){
+							@if(meta.isAlcancada() == true){
 								<tr class="info">
 							} else {
 								<tr>
@@ -72,7 +72,7 @@
 									</form>
 								</td>
 								<td>
-									<form action="@routes.Application.deleteMeta(semana.getId(), meta.getId())" method="post">
+									<form action="@routes.Application.removeMeta(semana.getId(), meta.getId())" method="post">
 										<button class="btn btn-danger">Remover</span></button>
 									</form>
 								</td>

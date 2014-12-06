@@ -60,11 +60,11 @@ public class Application extends Controller {
 	}
 
 	@Transactional
-	public static Result deleteMeta(Long semanaId, Long metaId) {
+	public static Result removeMeta(Long semanaId, Long metaId) {
 		Semana semana = bd.findByEntityId(Semana.class, semanaId);
 		Meta metaDesejada = bd.findByEntityId(Meta.class, metaId);
 
-		semana.deleteMeta(metaDesejada);
+		semana.removeMeta(metaDesejada);
 
 		Logger.debug("Removendo meta:" + metaDesejada.getNome());
 		bd.merge(semana);

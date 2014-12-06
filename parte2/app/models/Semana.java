@@ -81,7 +81,7 @@ public class Semana implements Comparable<Semana> {
 		metas.add(meta);
 	}
 
-	public void deleteMeta(Meta meta) {
+	public void removeMeta(Meta meta) {
 		metas.remove(meta);
 	}
 
@@ -116,7 +116,7 @@ public class Semana implements Comparable<Semana> {
 		return metas;
 	}
 
-	public int totalMetas() {
+	public int getMetasTotal() {
 		return metas.size();
 	}
 
@@ -124,21 +124,21 @@ public class Semana implements Comparable<Semana> {
 		return metas.isEmpty();
 	}
 
-	public int totalMetasAlcancadas() {
+	public int getTotalMetasAlcancadas() {
 		int metasAlcancadas = 0;
 
 		Iterator<Meta> it = metas.iterator();
 		while (it.hasNext()) {
 			Meta atual = it.next();
-			if (atual.getAlcancada() == true)
+			if (atual.isAlcancada() == true)
 				metasAlcancadas++;
 		}
 
 		return metasAlcancadas;
 	}
 
-	public int totalMetasNaoAlcancadas() {
-		return this.totalMetas() - this.totalMetasAlcancadas();
+	public int getTotalMetasNaoAlcancadas() {
+		return this.getMetasTotal() - this.getTotalMetasAlcancadas();
 	}
 
 	@Override

@@ -109,7 +109,7 @@ public class Meta implements Comparable<Meta> {
 		metaAlcancada = status;
 	}
 
-	public boolean getAlcancada() {
+	public boolean isAlcancada() {
 		return metaAlcancada;
 	}
 
