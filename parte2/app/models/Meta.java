@@ -109,6 +109,9 @@ public class Meta implements Comparable<Meta> {
 		metaAlcancada = status;
 	}
 
+	/**
+	 * @return se a meta foi alcançada
+	 */
 	public boolean isAlcancada() {
 		return metaAlcancada;
 	}

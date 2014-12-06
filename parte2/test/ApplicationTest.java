@@ -8,26 +8,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import play.GlobalSettings;
-import play.mvc.Http;
-import play.mvc.Result;
 import play.test.FakeApplication;
 import play.test.Helpers;
 import play.db.jpa.JPA;
 import play.db.jpa.JPAPlugin;
 import scala.Option;
 import static org.fest.assertions.Assertions.assertThat;
-import static play.test.Helpers.callAction;
-import static play.test.Helpers.contentAsString;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.redirectLocation;
-import static play.test.Helpers.status;
 
 import javax.persistence.EntityManager;
 
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ApplicationTest {
 	BD bd = new BD();
