@@ -8,10 +8,21 @@
 		<!-- Bootstrap CSS -->
 		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
 	</head>
-	<body style="background:#2E2E2E">
+	<style>
+		p.fantasy {
+    		font-family: Papyrus,fantasy
+    	}
+    	
+    	
+    	tr.d0 td {
+			background-color: #000000;
+		}
+		
+	</style>
+	<body background="http://marketingfunnelautomation.com/wp-content/uploads/2014/03/Black-Background-Wood-2560x1600-by-Freeman-1200x750.jpg">
 		<div id="uberbar">
 			<div class="jumbotron" style="background:#000000">
-    			<img style="text-align: center" src="http://i.imgur.com/bA8aGzJ.jpg?1" class="img-polaroid" style="text-align: center">
+    			<img src="http://i.imgur.com/bA8aGzJ.jpg?1" class="img-polaroid">
     		</div>
 			<div class="jumbotron" style="background:#000000">
     			<h2 style="color:#ABA6A6">NOT Procrastination, sistema que não deixa pra depois o que você pode organizar agora</h2>
@@ -45,10 +56,10 @@
 			<h2 style="color:#FFFFFF"><b>Metas Atuais</b></h2>
 			@for(semana <- semanas){
 				@if(!semana.isEmpty()){
-				<h4 class="text-warning">Semana @semana.intervalAsString()</h4>
-				<h4 class="text-warning">Total de Metas: @semana.getMetasTotal()</h4>
-				<h4 class="text-warning">Alcançadas: @semana.getTotalMetasAlcancadas()</h4>
-				<h4 class="text-warning">Não Alcançadas: @semana.getTotalMetasNaoAlcancadas()</h4>
+				<h4 class="text-warning"><b>Semana @semana.intervalAsString()</b></h4>
+				<h4 class="text-warning"><b>Total de Metas: @semana.getMetasTotal()</b></h4>
+				<h4 class="text-warning"><b>Alcançadas: @semana.getTotalMetasAlcancadas()</b></h4>
+				<h4 class="text-warning"><b>Não Alcançadas: @semana.getTotalMetasNaoAlcancadas()</b></h4>
 				<div class="table-responsive" id="uberbar">
 				<table class="table table-hover">
 					<thead>
@@ -58,14 +69,14 @@
 						@for(meta <- semana.getMetas()){
 							
 							@if(meta.isAlcancada() == true){
-								<tr class="info">
+								<tr class="d0">
 							} else {
 								<tr>
 							}
 							
-								<td style="color:#0101DF">@meta.getNome()</td>
-								<td style="color:#0101DF">@meta.getDescricao()</td>
-								<td style="color:#0101DF">@meta.getPrioridade()</td>
+								<td style="color:#E0E9F6"><p class="fantasy"><b>@meta.getNome()</b></p></td>
+								<td style="color:#E0E9F6"><p class="fantasy"><b>@meta.getDescricao()</b></p></td>
+								<td style="color:#E0E9F6"><p class="fantasy">@meta.getPrioridade()</p></td>
 								<td>
 									<form action="@routes.Application.setAlcancada(meta.getId())" method="post">
 										<button class="btn btn-success">Alcançada</button>
