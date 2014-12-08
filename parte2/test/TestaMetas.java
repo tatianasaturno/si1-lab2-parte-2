@@ -20,7 +20,7 @@ import javax.persistence.EntityManager;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class ApplicationTest {
+public class TestaMetas {
 	BD bd = new BD();
 	GregorianCalendar dataControle = new GregorianCalendar();
 	Meta meta1 = new Meta("1", "Fazer lab 2 SI1", Prioridade.ALTA);

@@ -77,10 +77,16 @@ public class Semana implements Comparable<Semana> {
 		terminaData.add(DAY_OF_MONTH, 6);
 	}
 
+	/**
+	 * @param meta
+	 */
 	public void addMeta(Meta meta) {
 		metas.add(meta);
 	}
 
+	/**
+	 * @param meta
+	 */
 	public void removeMeta(Meta meta) {
 		metas.remove(meta);
 	}
@@ -94,36 +100,60 @@ public class Semana implements Comparable<Semana> {
 				+ String.valueOf(terminaData.get(YEAR));
 	}
 
+	/**
+	 * @return id
+	 */
 	public Long getId() {
 		return id;
 	}
 
+	/**
+	 * @return data de inicio
+	 */
 	public String getStringComecaData() {
 		SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 		return fmt.format(comecaData.getTime());
 	}
 
+	/**
+	 * @return data de término
+	 */
 	public String getStringTerminaData() {
 		SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 		return fmt.format(terminaData.getTime());
 	}
 
+	/**
+	 * @return duração
+	 */
 	public String intervalAsString() {
 		return getStringComecaData() + " - " + getStringTerminaData();
 	}
 
+	/**
+	 * @return metas
+	 */
 	public List<Meta> getMetas() {
 		return metas;
 	}
 
+	/**
+	 * @return número de metas
+	 */
 	public int getMetasTotal() {
 		return metas.size();
 	}
 
+	/**
+	 * @return se está vazia
+	 */
 	public boolean isEmpty() {
 		return metas.isEmpty();
 	}
 
+	/**
+	 * @return total metas alcançadas
+	 */
 	public int getTotalMetasAlcancadas() {
 		int metasAlcancadas = 0;
 
@@ -137,13 +167,16 @@ public class Semana implements Comparable<Semana> {
 		return metasAlcancadas;
 	}
 
+	/**
+	 * @return total de metas não alcançadas
+	 */
 	public int getTotalMetasNaoAlcancadas() {
 		return this.getMetasTotal() - this.getTotalMetasAlcancadas();
 	}
 
 	@Override
 	public int compareTo(Semana outraSemana) {
-		// ordenar metas por semana
+		// ordenar semana por data de inicio
 		return this.comecaData.compareTo(outraSemana.comecaData);
 	}
 

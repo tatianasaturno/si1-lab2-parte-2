@@ -118,7 +118,7 @@ public class Meta implements Comparable<Meta> {
 
 	@Override
 	public int compareTo(Meta outra) {
-		// ordenar semana por prioridade
+		// ordenar metas por prioridade
 		return outra.getPrioridade().getNumericValue()
 				- this.getPrioridade().getNumericValue();
 	}
